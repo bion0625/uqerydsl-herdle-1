@@ -9,7 +9,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -19,15 +21,11 @@ import javax.persistence.EntityManager;
 @SpringBootTest
 class HerdleApplicationTests {
 
-	private EntityManager em;
-
-	private JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(em);
-
 	@InjectMocks
 	PollRepository pollRepository;
 
-//	@InjectMocks
-//	PollOptionRepository pollOptionRepository;
+	@Autowired
+	PollOptionRepository pollOptionRepository;
 
 	@Mock
 	PollOption pollOption;
@@ -50,27 +48,34 @@ class HerdleApplicationTests {
 	}
 
 	@Test
+	@Rollback(value = false)
+	@Transactional
 	public void saveData(){
 		System.out.println("save start");
 
-		pollRepository.savePollOption("c",1);
-		System.out.println("1 pollOptions : " + pollRepository.selectPollOptions().toString());
-		pollRepository.savePollOption("c+",2);
-		System.out.println("2 pollOptions : " + pollRepository.selectPollOptions().toString());
-		pollRepository.savePollOption("java",3);
-		System.out.println("3 pollOptions : " + pollRepository.selectPollOptions().toString());
-		pollRepository.savePollOption("vue.js",4);
-		System.out.println("4 pollOptions : " + pollRepository.selectPollOptions().toString());
-		pollRepository.savePollOption("react",5);
-		System.out.println("5 pollOptions : " + pollRepository.selectPollOptions().toString());
+		PollOption pollOption = new PollOption();
+		pollOption.setLabel("C");
+		pollOption.setPosition(1);
+		pollOptionRepository.save(pollOption);
 
-
-		pollRepository.savePollAnswer("c");
-		pollRepository.savePollAnswer("c");
-		pollRepository.savePollAnswer("java");
-		pollRepository.savePollAnswer("vue.js");
-		pollRepository.savePollAnswer("c+");
-		pollRepository.savePollAnswer("java");
+//		pollRepository.savePollOption("c",1);
+//		System.out.println("1 pollOptions : " + pollRepository.selectPollOptions().toString());
+//		pollRepository.savePollOption("c+",2);
+//		System.out.println("2 pollOptions : " + pollRepository.selectPollOptions().toString());
+//		pollRepository.savePollOption("java",3);
+//		System.out.println("3 pollOptions : " + pollRepository.selectPollOptions().toString());
+//		pollRepository.savePollOption("vue.js",4);
+//		System.out.println("4 pollOptions : " + pollRepository.selectPollOptions().toString());
+//		pollRepository.savePollOption("react",5);
+//		System.out.println("5 pollOptions : " + pollRepository.selectPollOptions().toString());
+//
+//
+//		pollRepository.savePollAnswer("c");
+//		pollRepository.savePollAnswer("c");
+//		pollRepository.savePollAnswer("java");
+//		pollRepository.savePollAnswer("vue.js");
+//		pollRepository.savePollAnswer("c+");
+//		pollRepository.savePollAnswer("java");
 		System.out.println("save end");
 	}
 

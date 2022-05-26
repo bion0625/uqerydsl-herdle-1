@@ -13,13 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
 public class PollRepository {
 
-    @Autowired
-    private EntityManager em;
+    @PersistenceContext
+    EntityManager em;
 
     JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(em);
 
@@ -38,11 +39,13 @@ public class PollRepository {
     }
 
     public void savePollOption(String label, int position){
-        QPollOption qPollOption = QPollOption.pollOption;
-        jpaQueryFactory.insert(qPollOption)
-                .columns(qPollOption.label,qPollOption.position)
-                .values(label,position)
-                .execute();
+        String insert = "insert into tb_poll_option ('laber','position') values("+label+","+position+")";
+        em.createNamedQuery(insert);
+//        QPollOption qPollOption = QPollOption.pollOption;
+//        jpaQueryFactory.insert(qPollOption)
+//                .columns(qPollOption.label,qPollOption.position)
+//                .values(label,position)
+//                .execute();
     }
 
     public List<PollOption> selectPollOptions(){
