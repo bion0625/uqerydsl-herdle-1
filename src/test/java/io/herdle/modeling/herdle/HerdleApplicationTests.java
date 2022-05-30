@@ -4,7 +4,6 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.herdle.modeling.herdle.Dto.*;
 import io.herdle.modeling.herdle.Entity.*;
-import io.herdle.modeling.herdle.Repository.PollRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
